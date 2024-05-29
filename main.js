@@ -3,8 +3,9 @@ import './style.css'
 import * as THREE from 'three';
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 
 const scene = new THREE.Scene();
@@ -20,18 +21,64 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
 
 renderer.render(scene, camera);
-function createPlanete(size, texture, position, ring) {
-  const geo = new THREE.SphereGeometry(size, 30, 30);
-  const mat = new THREE.MeshStandardMaterial({
-      map: textureLoader.load(texture)
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  const obj = new THREE.Object3D();
-  obj.add(mesh);
-  scene.add(obj);
-    mesh.position.x = position;
-    return {mesh, obj}
-}
+
+
+const loader = new FontLoader();
+
+
+loader.load( './fonts/Sans_Regular.json', function ( font) {
+
+	const geometry = new TextGeometry( 'Use Mouse to move', {
+		font: font,
+		size: 2,
+		depth: 1,
+	
+	} );
+  const textMesh = new THREE.Mesh(geometry, [
+    new THREE.MeshPhongMaterial({color: 0x694D75}),
+    new THREE.MeshPhongMaterial({ color: 0x513C5A})
+  ])
+
+  textMesh.castShadow = true
+  textMesh.position.y += 1
+  textMesh.position.z += 20
+  textMesh.position.x += 10
+  textMesh.rotation.y = 15.50
+
+  scene.add(textMesh)
+
+ 
+
+
+  
+} );
+const loader2 = new FontLoader();
+
+loader2.load( './fonts/Sans_Regular.json', function ( font) {
+
+	const geometry = new TextGeometry( 'Project made by William Trantan', {
+		font: font,
+		size: 2,
+		depth: 1,
+	
+	} );
+  const textMesh = new THREE.Mesh(geometry, [
+    new THREE.MeshPhongMaterial({color: 0x9FC2CC}),
+    new THREE.MeshPhongMaterial({ color: 0x81A4AE})
+  ])
+
+  textMesh.castShadow = true
+  textMesh.position.y += 15
+  textMesh.position.z -= 40
+  textMesh.position.x = 8
+  textMesh.rotation.y -= 0.5
+
+  scene.add(textMesh)
+
+  
+} );
+
+
 
 const geometry = new THREE.TorusGeometry(15, 1, 16, 100)
 const material = new THREE.MeshStandardMaterial( {color:0xFFD3D3});
