@@ -26,9 +26,9 @@ renderer.render(scene, camera);
 const loader = new FontLoader();
 
 
-loader.load( './fonts/Sans_Regular.json', function ( font) {
+loader.load( '/fonts/Sans_Regular.json', function ( font) {
 
-	const geometry = new TextGeometry( 'Use Mouse to move', {
+	const geometry = new TextGeometry( 'Use Mouse and scroll to move', {
 		font: font,
 		size: 2,
 		depth: 1,
@@ -40,10 +40,10 @@ loader.load( './fonts/Sans_Regular.json', function ( font) {
   ])
 
   textMesh.castShadow = true
-  textMesh.position.y += 1
+  textMesh.position.y += 2
   textMesh.position.z += 20
-  textMesh.position.x += 10
-  textMesh.rotation.y = 15.50
+  textMesh.position.x += 20
+  textMesh.rotation.y = 15.70
 
   scene.add(textMesh)
 
@@ -54,7 +54,7 @@ loader.load( './fonts/Sans_Regular.json', function ( font) {
 } );
 const loader2 = new FontLoader();
 
-loader2.load( './fonts/Sans_Regular.json', function ( font) {
+loader2.load( '/fonts/Sans_Regular.json', function ( font) {
 
 	const geometry = new TextGeometry( 'Project made by William Trantan', {
 		font: font,
