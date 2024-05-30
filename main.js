@@ -6,7 +6,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const scene = new THREE.Scene();
 const starArr = [];
@@ -28,7 +28,7 @@ const loader = new FontLoader();
 
 loader.load( '/fonts/Sans_Regular.json', function ( font) {
 
-	const geometry = new TextGeometry( 'Use Mouse and scroll to move', {
+	const geometry = new TextGeometry( 'Scroll and Drag to Move', {
 		font: font,
 		size: 2,
 		depth: 1,
@@ -52,9 +52,9 @@ loader.load( '/fonts/Sans_Regular.json', function ( font) {
 
   
 } );
-const loader2 = new FontLoader();
 
-loader2.load( '/fonts/Sans_Regular.json', function ( font) {
+
+loader.load( '/fonts/Sans_Regular.json', function ( font) {
 
 	const geometry = new TextGeometry( 'Project made by William Trantan', {
 		font: font,
@@ -109,7 +109,7 @@ const material2 = new THREE.MeshPhysicalMaterial({
   ior: 2.333,
   iridescence: 1,
   iridescenceIOR:1.84,
-  clearcoatRoughness: 0.1,
+  clearcoatRoughness: 0.01,
   reflectivity: 1.0,
   
   opacity: 1, // adjust to control transparency
@@ -126,7 +126,7 @@ pointLight.position.set(5,5,5)
 const pointLight2 = new THREE.PointLight(0xffffff, 100)
 pointLight.position.set(8,15,-40)
 
-const ambientLight = new THREE.AmbientLight(0xffffff);
+const ambientLight = new THREE.AmbientLight(0xffffff,3);
 scene.add(pointLight2, ambientLight)
 
 const lightHelper = new THREE.PointLightHelper(pointLight)
@@ -169,12 +169,24 @@ function addStar2(){
 Array(200).fill().forEach(addStar2)
 const spaceTexture = new THREE.TextureLoader().load('/space.jpg');
 scene.background = spaceTexture;
-const wonyoungT = new THREE.TextureLoader().load('/wonyoung.png');
+const wonyoungT = new THREE.TextureLoader().load('/gojo_blue.jpg');
 const wonyoung = new THREE.Mesh(
   new THREE.BoxGeometry(3,3,3),
   new THREE.MeshBasicMaterial( {map: wonyoungT})
 );
 scene.add(wonyoung);
+
+const texture = new THREE.TextureLoader().load( '/grass.jpg' );
+
+const material3 = new THREE.MeshStandardMaterial({
+  map: texture,
+  metalness:0.7,
+  roughness:0.3,
+})
+var geometry3 = new THREE.BoxGeometry();
+const mesh = new THREE.Mesh(geometry3,material3)
+
+scene.add(mesh)
 
 const moonTexture = new THREE.TextureLoader().load('/wonyoung.png');
 const normalTexture = new THREE.TextureLoader().load('/wonyoung.png');
@@ -187,6 +199,37 @@ const moon = new THREE.Mesh(
   })
 );
 
+   // spotlight
+        const spotLight = new THREE.SpotLight(0xffffff, 3000, 100, 0.22, 1);
+        spotLight.position.set(0, 25, 0);
+        spotLight.castShadow = true;
+        spotLight.shadow.bias = -0.0001;
+        scene.add(spotLight);
+
+
+ //elaina
+        const loader2 = new GLTFLoader();
+        loader2.load('/prison_realm__jujutsu_kaisen/scene.gltf', (gltf) => {
+                const mesh = gltf.scene;
+                gltf.scene.scale.set(20, 20, 20); 
+                scene.add(mesh);
+                mesh.position.z = -10;
+                mesh.position.x = 30;
+                
+                function animate() {
+                  requestAnimationFrame( animate );
+                  mesh.rotation.y += 0.005;
+                  mesh.rotation.x += 0.005;
+                }
+                animate()
+             },
+            (xhr) => {
+                console.log(`loading ${(xhr.loaded / xhr.total) * 100}%`);
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
 
 scene.add(moon);
 const moonTexture2 = new THREE.TextureLoader().load('/moon.jpg');
@@ -200,8 +243,9 @@ const moon2 = new THREE.Mesh(
   })
 );
 scene.add(moon2);
-
+mesh.position.z = 20;
 moon.position.z = 30;
+
 moon.position.setX(-10);
 moon2.position.z = 40;
 moon2.position.setX(0);
@@ -235,7 +279,9 @@ function animate() {
   moon2.rotation.x += 0.001;
   moon2.rotation.y += 0.001;
 
- 
+  mesh.rotation.z +=0.01
+  mesh.rotation.x +=0.01
+
   starArr.map((star) => {
     star.rotation.x += 0.001;
     star.rotation.y += 0.001;
