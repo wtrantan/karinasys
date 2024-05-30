@@ -63,8 +63,8 @@ loader2.load( '/fonts/Sans_Regular.json', function ( font) {
 	
 	} );
   const textMesh = new THREE.Mesh(geometry, [
-    new THREE.MeshPhongMaterial({color: 0x9FC2CC}),
-    new THREE.MeshPhongMaterial({ color: 0x81A4AE})
+    new THREE.MeshNormalMaterial(),
+    new THREE.MeshNormalMaterial()
   ])
 
   textMesh.castShadow = true
@@ -81,14 +81,40 @@ loader2.load( '/fonts/Sans_Regular.json', function ( font) {
 
 
 const geometry = new THREE.TorusGeometry(15, 1, 16, 100)
-const material = new THREE.MeshStandardMaterial( {color:0xFFD3D3});
+const material = new THREE.MeshPhysicalMaterial({
+  color: 0xccccff,
+  metalness: 0.1,
+  roughness: 0.05,
+  clearcoat: 1.0,
+  iridescence: 1,
+  clearcoatRoughness: 0.1,
+  reflectivity: 1.0,
+  transmission: 1.0, // glass-like transparency
+  opacity: 1, // adjust to control transparency
+  transparent: true
+});
 const torus = new THREE.Mesh(geometry, material);
 
 scene.add(torus)
 
 
 const geometry2 = new THREE.TorusGeometry(10, 1, 16, 100)
-const material2 = new THREE.MeshStandardMaterial( {color:0x91E09C});
+const material2 = new THREE.MeshPhysicalMaterial({
+  color: 0xffffff,
+  metalness: 0.3,
+  roughness: 0.669,
+  clearcoat: 1.0,
+  emissive:0x000000,
+  sheenColor: 0x000000,
+  ior: 2.333,
+  iridescence: 1,
+  iridescenceIOR:1.84,
+  clearcoatRoughness: 0,
+  reflectivity: 1.0,
+  transmission: 1.0, // glass-like transparency
+  opacity: 1, // adjust to control transparency
+
+});
 const torus2 = new THREE.Mesh(geometry2, material2);
 
 scene.add(torus2)
@@ -97,11 +123,11 @@ const pointLight = new THREE.PointLight(0xffffff, 50)
 
 pointLight.position.set(5,5,5)
 
-const pointLight2 = new THREE.PointLight(0xffffff, 50)
+const pointLight2 = new THREE.PointLight(0xffffff, 100)
 pointLight.position.set(8,15,-40)
 
 const ambientLight = new THREE.AmbientLight(0xffffff);
-scene.add(pointLight,pointLight2)
+scene.add(pointLight2, ambientLight)
 
 const lightHelper = new THREE.PointLightHelper(pointLight)
 
