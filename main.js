@@ -101,7 +101,7 @@ scene.add(torus)
 const geometry2 = new THREE.TorusGeometry(10, 1, 16, 100)
 const material2 = new THREE.MeshPhysicalMaterial({
   color: 0xffffff,
-  metalness: 0.3,
+  metalness: 0.6,
   roughness: 0.669,
   clearcoat: 1.0,
   emissive:0x000000,
@@ -109,11 +109,11 @@ const material2 = new THREE.MeshPhysicalMaterial({
   ior: 2.333,
   iridescence: 1,
   iridescenceIOR:1.84,
-  clearcoatRoughness: 0,
+  clearcoatRoughness: 0.1,
   reflectivity: 1.0,
-  transmission: 1.0, // glass-like transparency
+  
   opacity: 1, // adjust to control transparency
-
+  transparent: true
 });
 const torus2 = new THREE.Mesh(geometry2, material2);
 
